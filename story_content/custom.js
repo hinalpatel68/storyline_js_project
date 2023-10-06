@@ -57,13 +57,6 @@ function defineStaticValueForBottomTable(){
     bottomTableData["E74"] = staticE74; // Price/9L (SNS)
     var staticE76=36.24;
     bottomTableData["E76"] = staticE76; // COS/9L
-    //..
-    // var staticH73=0;
-    // bottomTableData["H73"] = staticH73; // Case Volume
-    // var staticH74=147.9;
-    // bottomTableData["H74"] = staticH74; // Price/9L (SNS)
-    // var staticH76=36.24;
-    // bottomTableData["H76"] = staticH76; // COS/9L
     // 1L
     var staticD82=13647.52;
     bottomTableData["D82"] = staticD82; // Case Volume
@@ -160,18 +153,15 @@ function defineStaticValueForBottomTable(){
     bottomTableData["D136"] = staticD136; // Case Volume
     var staticD137=177.73;
     bottomTableData["D137"] = staticD137; // Price/9L (SNS)
-    // var staticD139=51.00;
-    // bottomTableData["D139"] = staticD139; // COS/9L
     //..
     var staticE136=0;
     bottomTableData["E136"] = staticE136; // Case Volume
     var staticE137=182.323215254838;
     bottomTableData["E137"] = staticE137; // Price/9L (SNS)
-    // var staticE139=51.00;
-    // bottomTableData["E139"] = staticE139; // COS/9L
 }
 function defineStaticPlanningScenarioData() {
     var player = GetPlayer();
+    // input textbox variables
     var L15 = player.GetVar("L15"); // Category Growth
     // packaging change
     planningScenarioData['G46'] = 4;
@@ -255,20 +245,11 @@ function defineStaticPlanningScenarioData() {
 function calculateFormulas() {
     var player = GetPlayer();
     // input textbox variables
-    var L15 = player.GetVar("L15"); // Category Growth
-    var D15 = player.GetVar("D15"); // Last Year
-    var E15 = player.GetVar("E15"); // This Year
-
-    // input dropdowns variables
-    var M15 = player.GetVar("M15"); // Price Positioning
-    var N15 = player.GetVar("N15"); // Price Promo
-    var O15 = player.GetVar("O15"); // Assortment
-    var P15 = player.GetVar("P15"); // Packaging
-    var Q15 = player.GetVar("Q15"); // VA Gifts
-    var R15 = player.GetVar("R15"); // Advertising Spend
-
-    bottomTableData["D15"] = D15;
-    bottomTableData["E15"] = E15;
+    var D15 = player.GetVar("LastYearD15"); // Last Year
+    var E15 = player.GetVar("ThisYearE15"); // This Year
+    
+    setVariableData("D15",D15, "amount",0);
+    setVariableData("E15",E15, "amount",0);
 
     // static variable===============
     // ==== main table
@@ -331,7 +312,6 @@ function calculateMainTable(columnIndex,columnName="") {
     if(columnIndex == "H"){
         // main table
         var Formula20 = convertAmount(evaluateFormula(bottomTableData[columnIndex+'91']+'*'+bottomTableData['N90'],true),true); // 'H91*N90'
-        // var Formula20 = convertAmount(evaluateFormula(bottomTableData[columnIndex+'91']+'*'+'16.41',true)); // 'H91*N90' // temp
         setVariableData(columnIndex+"20",Formula20, "amount",0); // DISCOUNTS
         var Formula21 = convertAmount(evaluateFormula(columnIndex+'20/'+columnIndex+'15',true) * 1000); // 'H20*H15'
         setVariableData(columnIndex+"21",Formula21, "amount",2); // DISCOUNTS/ 9L Case
@@ -376,29 +356,27 @@ function calculateMainTable(columnIndex,columnName="") {
     setVariableData(columnIndex+"37",Formula37, "percentage",1); // Gross Margin (GP/ SNS)
     
     var Formula40 = convertAmount((evaluateFormula(columnIndex+'39/'+columnIndex+'29',true)) * 100); // '(D39/D29)*100 (perc)'
-    setVariableData(columnIndex+"40",Formula40, "amount",1); // Reinvestment Rate  (BE/ SNS)
+    setVariableData(columnIndex+"40",Formula40, "percentage",1); // Reinvestment Rate  (BE/ SNS)
 
     var Formula42 = convertAmount(evaluateFormula(columnIndex+'35-'+columnIndex+'39',true)); // 'D35-D39'
     setVariableData(columnIndex+"42",Formula42, "amount",0); // BRAND PROFIT
 
     var Formula45 = convertAmount((evaluateFormula(columnIndex+'44/'+columnIndex+'29',true)) * 100); // '(D44/D29)*100 (perc)'
-    setVariableData(columnIndex+"45",Formula45, "amount",1); // SG&A Efficiency (SG&A/ SNS)
+    setVariableData(columnIndex+"45",Formula45, "percentage",1); // SG&A Efficiency (SG&A/ SNS)
 
     var Formula47 = convertAmount(evaluateFormula(columnIndex+'42-'+columnIndex+'44',true)); // 'D42-D44'
     setVariableData(columnIndex+"47",Formula47, "amount",0);// OPERATING INCOME
     var Formula48 = convertAmount((evaluateFormula(columnIndex+'47/'+columnIndex+'29',true)) * 100); // '(D47/D29)*100 (perc)'
-    setVariableData(columnIndex+"48",Formula48, "amount",1);// Operating Margin (OI/ SNS)
+    setVariableData(columnIndex+"48",Formula48, "percentage",1);// Operating Margin (OI/ SNS)
 }
 function calculateTotalOfMainTable(columnIndex,columnName="") {
     // Dollars in thousands
-    var player = GetPlayer();
     // last year  D52 to D55
     var Formula52 = convertAmount(evaluateFormula(columnIndex+'39',true)); // 'D39'
     setVariableData(columnIndex+"52",Formula52, "amount",0);// Total Brand Spend
 }
 function calculateWorkingTotalOfMainTable(columnIndex,columnName="") {
     // Working as % of Total
-    var player = GetPlayer();
     // last year  D57 to D60
     var Formula57 = convertAmount(evaluateFormula('('+columnIndex+'53+'+columnIndex+'54)/'+columnIndex+'39',true) * 100); //( SUM(D53:D54)/D39)*100 (perc)
     setVariableData(columnIndex+"57",Formula57, "percentage",1); // Working as % of Total
@@ -415,63 +393,62 @@ function calculateChangesInYearOfMainTable(columnIndex, compareColumnIndex1, com
     var player = GetPlayer();
     // last year  D15 to D48
     var Formula15 = convertAmount(evaluateFormula(compareColumnIndex2+'15/'+compareColumnIndex1+'15-1',true) * 100); 
-    setVariableData(columnIndex+"15",Formula15, "percentage", 1);
+    setVariableData(columnIndex+"15",Formula15, "percentage", 1, true);
     var Formula17 = convertAmount(evaluateFormula(compareColumnIndex2+'17/'+compareColumnIndex1+'17-1',true) * 100); 
-    setVariableData(columnIndex+"17",Formula17, "percentage", 1);
+    setVariableData(columnIndex+"17",Formula17, "percentage", 1, true);
     var Formula18 = convertAmount(evaluateFormula(compareColumnIndex2+'18/'+compareColumnIndex1+'18-1',true) * 100); 
-    setVariableData(columnIndex+"18",Formula18, "percentage", 1);
+    setVariableData(columnIndex+"18",Formula18, "percentage", 1, true);
     var Formula20 = convertAmount(evaluateFormula(compareColumnIndex2+'20/'+compareColumnIndex1+'20-1',true) * 100); 
-    setVariableData(columnIndex+"20",Formula20, "percentage", 1);
+    setVariableData(columnIndex+"20",Formula20, "percentage", 1, true);
     var Formula21 = convertAmount(evaluateFormula(compareColumnIndex2+'21/'+compareColumnIndex1+'21-1',true) * 100);
-    setVariableData(columnIndex+"21",Formula21, "percentage", 1);
+    setVariableData(columnIndex+"21",Formula21, "percentage", 1, true);
     var Formula23 = convertAmount(evaluateFormula(compareColumnIndex2+'23/'+compareColumnIndex1+'23-1',true) * 100); 
-    setVariableData(columnIndex+"23",Formula23, "percentage", 1);
+    setVariableData(columnIndex+"23",Formula23, "percentage", 1, true);
     var Formula24 = convertAmount(evaluateFormula(compareColumnIndex2+'24/'+compareColumnIndex1+'24-1',true) * 100); 
-    setVariableData(columnIndex+"24",Formula24, "percentage", 1);
+    setVariableData(columnIndex+"24",Formula24, "percentage", 1, true);
     var Formula26 = convertAmount(evaluateFormula(compareColumnIndex2+'26/'+compareColumnIndex1+'26-1',true) * 100); 
-    setVariableData(columnIndex+"26",Formula26, "percentage", 1);
+    setVariableData(columnIndex+"26",Formula26, "percentage", 1, true);
     var Formula27 = convertAmount(evaluateFormula(compareColumnIndex2+'27/'+compareColumnIndex1+'27-1',true) * 100); 
-    setVariableData(columnIndex+"27",Formula27, "percentage", 1);
+    setVariableData(columnIndex+"27",Formula27, "percentage", 1, true);
     var Formula29 = convertAmount(evaluateFormula(compareColumnIndex2+'29/'+compareColumnIndex1+'29-1',true) * 100); 
-    setVariableData(columnIndex+"29",Formula29, "percentage", 1);
+    setVariableData(columnIndex+"29",Formula29, "percentage", 1, true);
     var Formula30 = convertAmount(evaluateFormula(compareColumnIndex2+'30/'+compareColumnIndex1+'30-1',true) * 100); 
-    setVariableData(columnIndex+"30",Formula30, "percentage", 1);
+    setVariableData(columnIndex+"30",Formula30, "percentage", 1, true);
     var Formula32 = convertAmount(evaluateFormula(compareColumnIndex2+'32/'+compareColumnIndex1+'32-1',true) * 100); 
-    setVariableData(columnIndex+"32",Formula32, "percentage", 1);
+    setVariableData(columnIndex+"32",Formula32, "percentage", 1, true);
     var Formula33 = convertAmount(evaluateFormula(compareColumnIndex2+'33/'+compareColumnIndex1+'33-1',true) * 100); 
-    setVariableData(columnIndex+"33",Formula33, "percentage", 1);
+    setVariableData(columnIndex+"33",Formula33, "percentage", 1, true);
     var Formula35 = convertAmount(evaluateFormula(compareColumnIndex2+'35/'+compareColumnIndex1+'35-1',true) * 100); 
-    setVariableData(columnIndex+"35",Formula35, "percentage", 1);
+    setVariableData(columnIndex+"35",Formula35, "percentage", 1, true);
     var Formula37 = convertAmount(evaluateFormula(compareColumnIndex2+'37-'+compareColumnIndex1+'37',true)); // pts 
-    setVariableData(columnIndex+"37",Formula37, "percentage", 1);
+    setVariableData(columnIndex+"37",Formula37, "percentage", 1, true);
     var Formula39 = convertAmount(evaluateFormula(compareColumnIndex2+'39/'+compareColumnIndex1+'39-1',true) * 100);
-    setVariableData(columnIndex+"39",Formula39, "percentage", 1);
+    setVariableData(columnIndex+"39",Formula39, "percentage", 1, true);
     var Formula40 = convertAmount(evaluateFormula(compareColumnIndex2+'40-'+compareColumnIndex1+'40',true)); // pts
-    setVariableData(columnIndex+"40",Formula40, "percentage", 1);
+    setVariableData(columnIndex+"40",Formula40, "percentage", 1, true);
     var Formula42 = convertAmount(evaluateFormula(compareColumnIndex2+'42/'+compareColumnIndex1+'42-1',true) * 100);
-    setVariableData(columnIndex+"42",Formula42, "percentage", 1);
+    setVariableData(columnIndex+"42",Formula42, "percentage", 1, true);
     var Formula44 = convertAmount(evaluateFormula(compareColumnIndex2+'44/'+compareColumnIndex1+'44-1',true) * 100); 
-    setVariableData(columnIndex+"44",Formula44, "percentage", 1);
+    setVariableData(columnIndex+"44",Formula44, "percentage", 1, true);
     var Formula45 = convertAmount(evaluateFormula(compareColumnIndex2+'45-'+compareColumnIndex1+'45',true));  // pts
-    setVariableData(columnIndex+"45",Formula45, "percentage", 1);
+    setVariableData(columnIndex+"45",Formula45, "percentage", 1, true);
     var Formula47 = convertAmount(evaluateFormula(compareColumnIndex2+'47/'+compareColumnIndex1+'47-1',true) * 100); 
-    setVariableData(columnIndex+"47",Formula47, "percentage", 1);
+    setVariableData(columnIndex+"47",Formula47, "percentage", 1, true);
     var Formula48 = convertAmount(evaluateFormula(compareColumnIndex2+'48-'+compareColumnIndex1+'48',true)); // pts
-    setVariableData(columnIndex+"48",Formula48, "percentage", 1); 
+    setVariableData(columnIndex+"48",Formula48, "percentage", 1, true); 
     
 }
 function calculateChangesInTotalOfMainTable(columnIndex, compareColumnIndex1, compareColumnIndex2, columnName="") {
     // Dollars in thousands
-    var player = GetPlayer();
     // last year  D52 to D55
     var Formula52 = convertAmount(evaluateFormula(compareColumnIndex2+'52/'+compareColumnIndex1+'52-1',true) * 100); // '(E52/D52-1)*100 (perc)'
-    setVariableData(columnIndex+"52",Formula52, "percentage", 1);// Total Brand Spend change
+    setVariableData(columnIndex+"52",Formula52, "percentage", 1, true);// Total Brand Spend change
     var Formula53 = convertAmount(evaluateFormula(compareColumnIndex2+'53/'+compareColumnIndex1+'53-1',true) * 100); //( SUM(E53:D53)-1)*100 (perc)
-    setVariableData(columnIndex+"53",Formula53, "percentage", 1); // Paid Media TV, Digital, Etc.
+    setVariableData(columnIndex+"53",Formula53, "percentage", 1, true); // Paid Media TV, Digital, Etc.
     var Formula54 = convertAmount(evaluateFormula(compareColumnIndex2+'54/'+compareColumnIndex1+'54-1',true) * 100); //( SUM(E54:D54)-1)*100 (perc)
-    setVariableData(columnIndex+"54",Formula54, "percentage", 1); // Other Activation Promotions, PR, Sponsorship, etc.
+    setVariableData(columnIndex+"54",Formula54, "percentage", 1, true); // Other Activation Promotions, PR, Sponsorship, etc.
     var Formula55 = convertAmount(evaluateFormula(compareColumnIndex2+'55/'+compareColumnIndex1+'55-1',true) * 100); //( SUM(E55:D55)-1)*100 (perc)
-    setVariableData(columnIndex+"55",Formula55, "percentage", 1);  // Non Working Agency Fees, Market Research, etc.
+    setVariableData(columnIndex+"55",Formula55, "percentage", 1, true);  // Non Working Agency Fees, Market Research, etc.
     
 }
 function calculateTotalOfBottomTable(columnIndex,columnName="") {
@@ -502,11 +479,6 @@ function calculateTotalOfBottomTable(columnIndex,columnName="") {
 }
 function calculateKToRColumn() {
     var player = GetPlayer();
-    // input textbox variables
-    var L15 = player.GetVar("L15"); // Category Growth
-    var D15 = player.GetVar("D15"); // Last Year
-    var E15 = player.GetVar("E15"); // This Year
-
     // input dropdowns variables
     var M15 = player.GetVar("M15"); // Price Positioning
     var N15 = player.GetVar("N15"); // Price Promo
@@ -519,7 +491,6 @@ function calculateKToRColumn() {
     
     var FormulaL91=FormulaL82=1+planningScenarioData['D16'];
     var FormulaM73=FormulaM74=FormulaM82=FormulaM83=FormulaM91=FormulaM92=FormulaM100=FormulaM101=FormulaM118=FormulaM119=FormulaM128=FormulaM136=FormulaM137=FormulaN90=FormulaN91=FormulaN92=FormulaO73=FormulaO82=FormulaO91=FormulaO100=FormulaO118=FormulaO136=FormulaP73=FormulaP76=FormulaP82=FormulaP85=FormulaP91=FormulaP94=FormulaP100=FormulaP109=FormulaP118=FormulaP130=FormulaP136=FormulaP139=FormulaQ91=FormulaQ127=FormulaQ130=FormulaR65=FormulaR73=FormulaR82=FormulaR91=FormulaR100=FormulaR109=FormulaR118=FormulaR136=0;
-    
     
     // M
     if(M15 == "A"){
@@ -892,16 +863,16 @@ function calculateBottomTable(columnIndex,columnName="") {
 }
 function displayValuesForColoredTable(){
     // var player = GetPlayer();
-    setVariableData("M2",bottomTableData["I15"], "percentage", 1);
-    setVariableData("M3",bottomTableData["I29"], "percentage", 1);
-    setVariableData("M4",bottomTableData["I30"], "percentage", 1);
-    setVariableData("M5",bottomTableData["I35"], "percentage", 1);
-    setVariableData("M6",bottomTableData["I37"], "percentage", 1);
-    setVariableData("M7",bottomTableData["I39"], "percentage", 1);
-    setVariableData("M8",bottomTableData["I40"], "percentage", 1);
-    setVariableData("M9",bottomTableData["I42"], "percentage", 1);
-    setVariableData("M10",bottomTableData["I47"], "percentage", 1);
-    setVariableData("M11",bottomTableData["I48"], "percentage", 1);
+    setVariableData("M2",bottomTableData["I15"], "percentage", 1, true);
+    setVariableData("M3",bottomTableData["I29"], "percentage", 1, true);
+    setVariableData("M4",bottomTableData["I30"], "percentage", 1, true);
+    setVariableData("M5",bottomTableData["I35"], "percentage", 1, true);
+    setVariableData("M6",bottomTableData["I37"], "percentage", 1, true);
+    setVariableData("M7",bottomTableData["I39"], "percentage", 1, true);
+    setVariableData("M8",bottomTableData["I40"], "percentage", 1, true);
+    setVariableData("M9",bottomTableData["I42"], "percentage", 1, true);
+    setVariableData("M10",bottomTableData["I47"], "percentage", 1, true);
+    setVariableData("M11",bottomTableData["I48"], "percentage", 1, true);
 }
 function convertAmount(amount, allowConversion=false){
     if(allowConversion){
@@ -909,38 +880,38 @@ function convertAmount(amount, allowConversion=false){
     }
     return Number(amount);
 }
-function convertAmount_old(amount, fractionDigit=0, allowConversion=false){
-    if(allowConversion){
-        amount = (amount/1000);
-    }
-    var formattedAmount = amount.toLocaleString('en-US', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 4,
-    useGrouping: false,
-    });
-    return Number(formattedAmount);
-}
-function setVariableData(key, value, valueType, fractionDigit=""){
+function setVariableData(key, value, valueType, fractionDigit="", showSign=false){
+    var unformatedValue = formatedValue = Number(value);
     var player = GetPlayer();
     bottomTableData[key] = value;
     if(valueType == "amount"){
-        value = value.toLocaleString('en-US', {
+        formatedValue = unformatedValue.toLocaleString('en-US', {
         style: 'currency',
         currency: 'USD',
-        // minimumFractionDigits: 0,
+        minimumFractionDigits: fractionDigit,
         // maximumFractionDigits: getDecimalLength(value),
         maximumFractionDigits: fractionDigit,
         useGrouping: true,
         });
     }
     else if(valueType == "percentage"){
-        value = (value/100).toLocaleString('en-GB', {
+        formatedValue = (unformatedValue/100).toLocaleString('en-GB', {
             style: 'percent',
+            minimumFractionDigits: fractionDigit,
             maximumFractionDigits: fractionDigit,
             useGrouping: true,
             });
+            if (showSign)
+            {
+                var sign = unformatedValue >= 0 ? '+':'';
+                formatedValue = sign+formatedValue;
+            }
+            if(key == "I48" || key == "F48" || key == "I45" || key == "F45" || key == "I40" || key == "F40" || key == "I37" || key == "F37" || key == "M6" || key == "M11"){
+                formatedValue += " pts";
+            }
     }
-    player.SetVar(key,value);
+
+    player.SetVar(key,formatedValue);
 }
 function getDecimalLength(number) {
     if (number % 1 !== 0) {
