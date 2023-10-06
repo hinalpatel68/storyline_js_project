@@ -1,4 +1,5 @@
 var bottomTableData = [];
+var planningScenarioData = [];
 function defineStaticValueForMainTable(){
     // ==== main table
     var player = GetPlayer();
@@ -31,11 +32,11 @@ function defineStaticValueForMainTable(){
     var staticD55=984000.417840458;
     setVariableData("D55",convertAmount(staticD55,0,true), "amount"); // Non Working Agency Fees, Market Research, etc.
     //...
-    var staticE53=1850554.09798661;
+    var staticE53=1907787.72988311;
     setVariableData("E53",convertAmount(staticE53,0,true), "amount"); // Paid Media TV, Digital, Etc.
-    var staticE54=988234.044079449;
+    var staticE54=953893.864941554;
     setVariableData("E54",convertAmount(staticE54,0,true), "amount"); // Other Activation Promotions, PR, Sponsorship, etc.
-    var staticE55=976787.317700151;
+    var staticE55=953893.864941554;
     setVariableData("E55",convertAmount(staticE55,0,true), "amount"); // Non Working Agency Fees, Market Research, etc.
 
 
@@ -169,6 +170,87 @@ function defineStaticValueForBottomTable(){
     // var staticE139=51.00;
     // bottomTableData["E139"] = staticE139; // COS/9L
 }
+function defineStaticPlanningScenarioData() {
+    var player = GetPlayer();
+    var L15 = player.GetVar("L15"); // Category Growth
+    // packaging change
+    planningScenarioData['G46'] = 4;
+    planningScenarioData['G47'] = 0;
+    planningScenarioData['G48'] = -2.40;
+    //..........
+    planningScenarioData['F20'] = 5/100;// (perc)
+    planningScenarioData['F21'] = 0/100;// (perc)
+    planningScenarioData['F23'] = -5/100;// (perc)
+    planningScenarioData['D16'] = L15/100;// (perc)
+    planningScenarioData['D17'] = 5/100;// (perc)
+    planningScenarioData['D20'] = -4/100;// (perc)
+    planningScenarioData['D21'] = 0/100;// (perc)
+    planningScenarioData['D22'] = 4/100;// (perc)
+
+    planningScenarioData['D40'] = 5/100;// (perc)
+    planningScenarioData['D41'] = 4/100;// (perc)
+    planningScenarioData['D42'] = 0/100;// (perc)
+    planningScenarioData['D43'] = -4/100;// (perc)
+
+    planningScenarioData['D36'] = 1/100;// (perc)
+    planningScenarioData['E36'] = 0.5/100;// (perc)
+    planningScenarioData['F36'] = 0/100;// (perc)
+
+    planningScenarioData['D37'] = -1/100;// (perc)
+    planningScenarioData['E37'] = -0.1/100;// (perc)
+    planningScenarioData['F37'] = 0/100;// (perc)
+
+    planningScenarioData['D46'] = 0.5/100;// (perc)
+    planningScenarioData['D47'] = 0/100;// (perc)
+    planningScenarioData['D48'] = 0/100;// (perc)
+
+    planningScenarioData['D51'] = 10000;
+    planningScenarioData['D52'] = 15000;
+    planningScenarioData['D53'] = 10000;
+    planningScenarioData['D54'] = 0;
+
+    planningScenarioData['D56'] = -4000;
+    planningScenarioData['D57'] = -7500;
+    planningScenarioData['D58'] = -5000;
+    planningScenarioData['D59'] = 0;
+    planningScenarioData['D62'] = 0/100; // (perc)
+    planningScenarioData['D63'] = 2/100; // (perc)
+    planningScenarioData['D64'] = 3/100; // (perc)
+
+    planningScenarioData['D30'] = 10/100; // (perc)
+    planningScenarioData['E30'] = 0/100; // (perc)
+    planningScenarioData['F30'] = 0/100; // (perc)
+
+    planningScenarioData['D31'] = 5/100; // (perc)
+    planningScenarioData['E31'] = 0/100; // (perc)
+    planningScenarioData['F31'] = 0/100; // (perc)
+
+    planningScenarioData['D32'] = 2/100; // (perc)
+    planningScenarioData['E32'] = 0/100; // (perc)
+    planningScenarioData['F32'] = 0/100; // (perc)
+
+    planningScenarioData['D34'] = 7/100; // (perc)
+    planningScenarioData['E34'] = 15/100; // (perc)
+    planningScenarioData['F34'] = 0/100; // (perc)
+    
+    planningScenarioData['F40'] = -3.5/100; // (perc)
+    planningScenarioData['F41'] = -1.4/100; // (perc)
+    planningScenarioData['F42'] = 0/100; // (perc)
+    planningScenarioData['F43'] = 1.4/100; // (perc)
+    planningScenarioData['F51'] = 48;
+    planningScenarioData['F52'] = 36;
+    planningScenarioData['F53'] = 0;
+    planningScenarioData['F54'] = 0;
+
+    planningScenarioData['H62'] = 0.00;
+    planningScenarioData['H63'] = 500000.00;
+    planningScenarioData['H64'] = 1000000.00;
+
+    planningScenarioData['E40'] = 24.00;
+    planningScenarioData['E41'] = 20.00;
+    planningScenarioData['E42'] = 16.41;
+    planningScenarioData['E43'] = 12.22;
+}
 // Main Function
 function calculateFormulas() {
     var player = GetPlayer();
@@ -255,7 +337,8 @@ function calculateMainTable(columnIndex,columnName="") {
         setVariableData(columnIndex+"21",Formula21, "amount"); // DISCOUNTS/ 9L Case
         var ForumulaI29= convertAmount(evaluateFormula(columnIndex+'29/E29-1',true) * 100, 2) // (H29/E29-1)*100 (perc)
         setVariableData("I29",ForumulaI29, "amount"); 
-        var Formula44 = convertAmount(evaluateFormula('E44*(1+((I29/100)/2))',true)); // E44*(1+(I29/2))
+        // var Formula44 = convertAmount(evaluateFormula('E44*(1+((I29/100)/2))',true)); // E44*(1+(I29/2))
+        var Formula44 = convertAmount(evaluateFormula('E44*(1+('+planningScenarioData['D17']+'))',true)); // E44*(1+(planningScenarioD17))
         setVariableData(columnIndex+"44",Formula44, "amount"); // SG&A
 
         // total calculation for H column
@@ -318,13 +401,13 @@ function calculateWorkingTotalOfMainTable(columnIndex,columnName="") {
     var player = GetPlayer();
     // last year  D57 to D60
     var Formula57 = convertAmount(evaluateFormula('('+columnIndex+'53+'+columnIndex+'54)/'+columnIndex+'39',true) * 100, 1); //( SUM(D53:D54)/D39)*100 (perc)
-    setVariableData(columnIndex+"57",Formula57, "amount"); // Working as % of Total
+    setVariableData(columnIndex+"57",Formula57, "percentage"); // Working as % of Total
     var Formula58 = convertAmount(evaluateFormula(columnIndex+'53/'+columnIndex+'52',true) * 100, 1); // (D53/D52)*100 (perc)
-    setVariableData(columnIndex+"58",Formula58, "amount"); // Paid Media
+    setVariableData(columnIndex+"58",Formula58, "percentage"); // Paid Media
     var Formula59 = convertAmount(evaluateFormula(columnIndex+'54/'+columnIndex+'52',true) * 100, 1); // (D54/D52)*100 (perc)
-    setVariableData(columnIndex+"59",Formula59, "amount"); // Activation
+    setVariableData(columnIndex+"59",Formula59, "percentage"); // Activation
     var Formula60 = convertAmount(evaluateFormula(columnIndex+'55/'+columnIndex+'52',true) * 100, 1); // (D55/D52)*100 (perc)
-    setVariableData(columnIndex+"60",Formula60, "amount"); // NonWorking
+    setVariableData(columnIndex+"60",Formula60, "percentage"); // NonWorking
     
 }
 function calculateChangesInYearOfMainTable(columnIndex, compareColumnIndex1, compareColumnIndex2, columnName="") {
@@ -432,81 +515,7 @@ function calculateKToRColumn() {
     var Q15 = player.GetVar("Q15"); // VA Gifts
     var R15 = player.GetVar("R15"); // Advertising Spend
 
-    var planningScenarioData = [];
-    planningScenarioData['G46'] = 6;
-    planningScenarioData['G47'] = 0;
-    planningScenarioData['G48'] = -2.40;
-    planningScenarioData['F20'] = 5/100;// (perc)
-    planningScenarioData['F21'] = 0/100;// (perc)
-    planningScenarioData['F23'] = -5/100;// (perc)
-    planningScenarioData['D16'] = L15/100;// (perc)
-    planningScenarioData['D20'] = -4/100;// (perc)
-    planningScenarioData['D21'] = 0/100;// (perc)
-    planningScenarioData['D22'] = 4/100;// (perc)
-
-    planningScenarioData['D40'] = 5/100;// (perc)
-    planningScenarioData['D41'] = 4/100;// (perc)
-    planningScenarioData['D42'] = 0/100;// (perc)
-    planningScenarioData['D43'] = -4/100;// (perc)
-
-    planningScenarioData['D36'] = 1/100;// (perc)
-    planningScenarioData['E36'] = 0.5/100;// (perc)
-    planningScenarioData['F36'] = 0/100;// (perc)
-
-    planningScenarioData['D37'] = -1/100;// (perc)
-    planningScenarioData['E37'] = -0.1/100;// (perc)
-    planningScenarioData['F37'] = 0/100;// (perc)
-
-    planningScenarioData['D46'] = 0.5/100;// (perc)
-    planningScenarioData['D47'] = 0/100;// (perc)
-    planningScenarioData['D48'] = 0/100;// (perc)
-
-    planningScenarioData['D51'] = 10000;
-    planningScenarioData['D52'] = 15000;
-    planningScenarioData['D53'] = 10000;
-    planningScenarioData['D54'] = 0;
-
-    planningScenarioData['D56'] = -4000;
-    planningScenarioData['D57'] = -7500;
-    planningScenarioData['D58'] = -5000;
-    planningScenarioData['D59'] = 0;
-    planningScenarioData['D62'] = 0/100; // (perc)
-    planningScenarioData['D63'] = 2/100; // (perc)
-    planningScenarioData['D64'] = 3/100; // (perc)
-
-    planningScenarioData['D30'] = 10/100; // (perc)
-    planningScenarioData['E30'] = 0/100; // (perc)
-    planningScenarioData['F30'] = 0/100; // (perc)
-
-    planningScenarioData['D31'] = 5/100; // (perc)
-    planningScenarioData['E31'] = 0/100; // (perc)
-    planningScenarioData['F31'] = 0/100; // (perc)
-
-    planningScenarioData['D32'] = 2/100; // (perc)
-    planningScenarioData['E32'] = 0/100; // (perc)
-    planningScenarioData['F32'] = 0/100; // (perc)
-
-    planningScenarioData['D34'] = 7/100; // (perc)
-    planningScenarioData['E34'] = 15/100; // (perc)
-    planningScenarioData['F34'] = 0/100; // (perc)
-    
-    planningScenarioData['F40'] = -3.5/100; // (perc)
-    planningScenarioData['F41'] = -1.4/100; // (perc)
-    planningScenarioData['F42'] = 0/100; // (perc)
-    planningScenarioData['F43'] = 1.4/100; // (perc)
-    planningScenarioData['F51'] = 48;
-    planningScenarioData['F52'] = 36;
-    planningScenarioData['F53'] = 0;
-    planningScenarioData['F54'] = 0;
-
-    planningScenarioData['H62'] = 0.00;
-    planningScenarioData['H63'] = 500000.00;
-    planningScenarioData['H64'] = 1000000.00;
-
-    planningScenarioData['E40'] = 24.00;
-    planningScenarioData['E41'] = 20.00;
-    planningScenarioData['E42'] = 16.41;
-    planningScenarioData['E43'] = 12.22;
+    defineStaticPlanningScenarioData();
     
     var FormulaL91=FormulaL82=1+planningScenarioData['D16'];
     var FormulaM73=FormulaM74=FormulaM82=FormulaM83=FormulaM91=FormulaM92=FormulaM100=FormulaM101=FormulaM118=FormulaM119=FormulaM128=FormulaM136=FormulaM137=FormulaN90=FormulaN91=FormulaN92=FormulaO73=FormulaO82=FormulaO91=FormulaO100=FormulaO118=FormulaO136=FormulaP73=FormulaP76=FormulaP82=FormulaP85=FormulaP91=FormulaP94=FormulaP100=FormulaP109=FormulaP118=FormulaP130=FormulaP136=FormulaP139=FormulaQ91=FormulaQ127=FormulaQ130=FormulaR65=FormulaR73=FormulaR82=FormulaR91=FormulaR100=FormulaR109=FormulaR118=FormulaR136=0;
