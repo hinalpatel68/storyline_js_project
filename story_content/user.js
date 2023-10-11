@@ -40,16 +40,9 @@ function ExecuteScript(strId)
 
 function Script1()
 {
-  var jsLoader = document.createElement("script");
-
-let randomString = Math.floor((Math.random() * 10000) + 1);
-jsLoader.src = "http://localhost/storyline/custom.js?v"+randomString;
-
-jsLoader.onload = function() {
-	jsLoader.onload = null;
-	calculateFormulas();
-}
-document.head.appendChild(jsLoader);
+  if (typeof calculateFormulas === 'function') { 
+    calculateFormulas();
+  }
 }
 
 function Script2()
