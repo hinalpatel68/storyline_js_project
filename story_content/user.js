@@ -2,37 +2,37 @@ function ExecuteScript(strId)
 {
   switch (strId)
   {
-      case "6cpdWpWskPy":
+      case "5i5vUTMC84k":
         Script1();
         break;
-      case "6FZId0aisgc":
+      case "6EvD6NWZ2XC":
         Script2();
         break;
-      case "67Fe7gSVRBA":
+      case "6CiKfGnklet":
         Script3();
         break;
-      case "6ZX5NaBeOVB":
+      case "6lZnAlMyEu6":
         Script4();
         break;
-      case "5mffjD9Mcey":
+      case "6YC8AZTeZXc":
         Script5();
         break;
-      case "5tk6Pcgymbj":
+      case "5d2CGnZDJ65":
         Script6();
         break;
-      case "6HcVD50wVxS":
+      case "5egZJYh7Yn3":
         Script7();
         break;
-      case "6CktkPB433V":
+      case "68DKeUG2kMN":
         Script8();
         break;
-      case "62Uacapk4T1":
+      case "5hMOkVzLN1C":
         Script9();
         break;
-      case "5s80EPP5FMh":
+      case "5i7r3ZtH3MQ":
         Script10();
         break;
-      case "6Vv5xx0q5Fu":
+      case "6YetL9mABDF":
         Script11();
         break;
   }
@@ -40,9 +40,16 @@ function ExecuteScript(strId)
 
 function Script1()
 {
-  if (typeof calculateFormulas === 'function') { 
-    calculateFormulas();
-  }
+  var jsLoader = document.createElement("script");
+
+let randomString = Math.floor((Math.random() * 10000) + 1);
+jsLoader.src = "http://localhost/storyline/custom.js?v"+randomString;
+
+jsLoader.onload = function() {
+	jsLoader.onload = null;
+	calculateFormulas();
+}
+document.head.appendChild(jsLoader);
 }
 
 function Script2()
