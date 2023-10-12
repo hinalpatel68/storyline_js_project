@@ -238,8 +238,8 @@ function defineStaticPlanningScenarioData() {
 
     planningScenarioData['E40'] = 24.00;
     planningScenarioData['E41'] = 20.00;
-    planningScenarioData['E42'] = 16.41;
-    planningScenarioData['E43'] = 12.22;
+    planningScenarioData['E42'] = 16.4125;
+    planningScenarioData['E43'] = 12.2187249864323;
 }
 // Main Function
 function calculateFormulas() {
@@ -288,8 +288,8 @@ function calculateFormulas() {
     calculateChangesInTotalOfMainTable("I","E","H","next_year_changes");
 
     displayValuesForColoredTable();
-    console.log(bottomTableData);
-    console.log(" finish calculation ====");
+    // console.log(bottomTableData);
+    // console.log(" finish calculation ====");
 }
 function calculateMainTable(columnIndex,columnName="") {
     var player = GetPlayer();
