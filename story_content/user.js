@@ -2,38 +2,35 @@ function ExecuteScript(strId)
 {
   switch (strId)
   {
-      case "5wr2xNW2rRh":
+      case "5nsq1cwK8ML":
         Script1();
         break;
-      case "5vlNetkXTrE":
+      case "5UkUhogcXJn":
         Script2();
         break;
-      case "6lcxOgHnFnI":
+      case "6CtLQLDOVeN":
         Script3();
         break;
-      case "66zvvWpxpQ6":
+      case "6QUf1wItuxI":
         Script4();
         break;
-      case "6TOihDMlShz":
+      case "6I5DCLQOlxz":
         Script5();
         break;
-      case "5zgc2VTFQ9h":
+      case "61noMF75Ctk":
         Script6();
         break;
-      case "5wCqvW1PUY3":
+      case "5hZa2xm8KSE":
         Script7();
         break;
-      case "5bL1qAWC7nE":
+      case "6CmkJQ80tnV":
         Script8();
         break;
-      case "5zmNeOu70el":
+      case "6kppd0J9ukd":
         Script9();
         break;
-      case "5rXOfT1r0kx":
+      case "6Tr0tQW4tT3":
         Script10();
-        break;
-      case "6XeefZlAl52":
-        Script11();
         break;
   }
 }
@@ -106,19 +103,5 @@ function Script10()
   if (typeof calculateFormulas === 'function') { 
 	calculateFormulas();
 }
-}
-
-function Script11()
-{
-  var player = GetPlayer();
-var M15 = player.GetVar("M15");
-player.SetVar("D15","1.0");
-
-// Note, you'll have to make these call your function rather than
-// put all the javascript here. Then you'll have to edit the 
-// story.html file to access your functions.
-// See this web page. 
-// https://articulate.com/support/article/Articulate-Storyline-360-JavaScript-Best-Practices-and-Examples
-
 }
 
