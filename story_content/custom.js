@@ -187,7 +187,7 @@ function defineStaticPlanningScenarioData() {
     planningScenarioData['F36'] = 0/100;// (perc)
 
     planningScenarioData['D37'] = -1/100;// (perc)
-    planningScenarioData['E37'] = -0.1/100;// (perc)
+    planningScenarioData['E37'] = -0.05/100;// (perc)
     planningScenarioData['F37'] = 0/100;// (perc)
 
     planningScenarioData['D46'] = 0.5/100;// (perc)
@@ -916,7 +916,7 @@ function setVariableData(key, value, valueType, fractionDigit="", showSign=false
                     formatedValue = "-"
                 }
             }
-            if(key == "I48" || key == "F48" || key == "I45" || key == "F45" || key == "I40" || key == "F40" || key == "I37" || key == "F37" || key == "M6" || key == "M11"){
+            if(key == "I48" || key == "F48" || key == "I45" || key == "F45" || key == "I40" || key == "F40" || key == "I37" || key == "F37" || key == "M6" || key == "M8" || key == "M11"){
                 if(formatedValue != "-"){
                     formatedValue += " pts";
                 }
