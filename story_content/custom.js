@@ -248,8 +248,8 @@ function calculateFormulas() {
     var D15 = player.GetVar("LastYearD15"); // Last Year
     var E15 = player.GetVar("ThisYearE15"); // This Year
     
-    setVariableData("D15",D15, "amount",0);
-    setVariableData("E15",E15, "amount",0);
+    setVariableData("D15",D15, "unit",0);
+    setVariableData("E15",E15, "unit",0);
 
     // static variable===============
     // ==== main table
@@ -295,7 +295,7 @@ function calculateMainTable(columnIndex,columnName="") {
     var player = GetPlayer();
     // last year === D17 to D48
     if(columnIndex == "H"){
-        setVariableData("H15",bottomTableData[columnIndex+'64'], "amount",0); // VOLUME
+        setVariableData("H15",bottomTableData[columnIndex+'64'], "unit",0); // VOLUME
         // setVariableData("H15",167178); // temp
         setVariableData("H39",bottomTableData["H52"], "amount",0); // BRAND EXPENSE
     }
@@ -894,6 +894,13 @@ function setVariableData(key, value, valueType, fractionDigit="", showSign=false
         currency: 'USD',
         minimumFractionDigits: fractionDigit,
         // maximumFractionDigits: getDecimalLength(value),
+        maximumFractionDigits: fractionDigit,
+        useGrouping: true,
+        });
+    }
+    else if(valueType == "unit"){
+        formatedValue = unformatedValue.toLocaleString('en-US', {
+        minimumFractionDigits: fractionDigit,
         maximumFractionDigits: fractionDigit,
         useGrouping: true,
         });
